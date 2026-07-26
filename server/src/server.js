@@ -7,7 +7,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-connectToDB()
+connectToDB();
 
 const server = http.createServer(app);
 

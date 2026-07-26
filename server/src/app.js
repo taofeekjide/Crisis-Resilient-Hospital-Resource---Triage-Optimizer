@@ -2,17 +2,33 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+
 import healthRoutes from "./routes/health.routes.js";
+
+import notFound from "./middleware/notFound.middleware.js";
+import errorHandler from "./middleware/error.middleware.js";
 
 const app = express();
 
-// Global Middleware
+// Security Middleware
 app.use(helmet());
+
+// Enable CORS
 app.use(cors());
+
+// Parse JSON Requests
 app.use(express.json());
+
+// HTTP Request Logger
 app.use(morgan("dev"));
 
-// Routes will be registered here
+// Routes
 app.use("/api/health", healthRoutes);
+
+// 404 Middleware
+app.use(notFound);
+
+// Global Error Handler
+app.use(errorHandler);
 
 export default app;
