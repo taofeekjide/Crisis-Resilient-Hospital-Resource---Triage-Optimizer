@@ -8,16 +8,15 @@ import healthRoutes from "./routes/health.routes.js";
 
 import notFound from "./middleware/notFound.middleware.js";
 import errorHandler from "./middleware/error.middleware.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 
 // Security Middleware
 app.use(helmet());
 
-// Enable CORS
 app.use(cors());
 
-// Parse JSON Requests
 app.use(express.json());
 
 // HTTP Request Logger
@@ -26,8 +25,9 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
-// 404 Middleware
+// 404 Middleware for not found
 app.use(notFound);
 
 // Global Error Handler
