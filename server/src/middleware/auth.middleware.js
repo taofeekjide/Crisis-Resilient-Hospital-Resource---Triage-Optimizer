@@ -6,7 +6,6 @@ const protect = async (req, res, next) => {
   try {
     let token;
 
-    // Authorization Header
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer ")
@@ -22,8 +21,9 @@ const protect = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Check User
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.id).select(
+      "_id firstName lastName email role isActive",
+    );
 
     if (!user) {
       return next(new AppError("User no longer exists.", 401));
