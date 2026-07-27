@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 
+// Register Validation
 export const registerValidator = [
   body("firstName")
     .trim()
@@ -34,4 +35,17 @@ export const registerValidator = [
     .trim()
     .isLength({ min: 10, max: 15 })
     .withMessage("Phone number must be between 10 and 15 characters."),
+];
+
+// Login Validation
+export const loginValidator = [
+  body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email is required.")
+    .isEmail()
+    .withMessage("Please provide a valid email.")
+    .normalizeEmail(),
+
+  body("password").notEmpty().withMessage("Password is required."),
 ];

@@ -1,5 +1,6 @@
-import { registerUser } from "../services/auth.service.js";
+import { registerUser, loginUser } from "../services/auth.service.js";
 
+// Register Controller
 export const register = async (req, res, next) => {
   try {
     const user = await registerUser(req.body);
@@ -8,6 +9,23 @@ export const register = async (req, res, next) => {
       success: true,
       message: "User registered successfully.",
       data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Login Controller
+export const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    const data = await loginUser(email, password);
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful.",
+      data,
     });
   } catch (error) {
     next(error);
