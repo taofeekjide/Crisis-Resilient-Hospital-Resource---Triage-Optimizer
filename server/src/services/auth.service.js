@@ -12,7 +12,10 @@ export const registerUser = async (userData) => {
   }
 
   // Create user
-  const user = await User.create(userData);
+  const user = await User.create({
+    ...userData,
+    role: "Patient",
+  });
 
   return user;
 };
