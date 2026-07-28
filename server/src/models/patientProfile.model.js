@@ -4,6 +4,13 @@ const { Schema } = mongoose;
 
 const patientProfileSchema = new Schema(
   {
+    mrn: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -95,6 +102,7 @@ const patientProfileSchema = new Schema(
   },
 );
 
+patientProfileSchema.index({ mrn: 1 }, { unique: true });
 patientProfileSchema.index({ user: 1 }, { unique: true });
 patientProfileSchema.index({ bloodGroup: 1 });
 patientProfileSchema.index({ status: 1 });
