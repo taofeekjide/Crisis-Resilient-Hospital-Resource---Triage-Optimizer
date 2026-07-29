@@ -1,0 +1,45 @@
+import User from "../models/user.model.js";
+import PatientProfile from "../models/patientProfile.model.js";
+import AppError from "../utils/AppError.js";
+import generateMRN from "../utils/generateMRN.js";
+
+
+// To Create patient profile
+export const createPatientProfile = async (patientData) => {
+  const { user } = patientData;
+
+  const existingUser = await User.findById(user);
+
+  if (!existingUser) {
+    throw new AppError("User not found.", 404);
+  }
+
+  if (existingUser.role !== "Patient") {
+    throw new AppError(
+      "Patient profile can only be created for users with the Patient role.",
+      400
+    );
+  }
+
+  const existingProfile = await PatientProfile.findOne({ user });
+
+  if (existingProfile) {
+    throw new AppError(
+      "This user already has a patient profile.",
+      409
+    );
+  }
+
+  // Generate a Medical Record Number (MRN)
+  const mrn = await generateMRN();
+
+  const patientProfile = await PatientProfile.create({
+    ...patientData,
+    mrn,
+  });
+
+  return await PatientProfile.findById(patientProfile._id).populate({
+    path: "user",
+    select: "firstName lastName email phone role",
+  });
+};
