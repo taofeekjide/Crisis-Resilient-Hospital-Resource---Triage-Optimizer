@@ -9,6 +9,7 @@ import healthRoutes from "./routes/health.routes.js";
 import notFound from "./middleware/notFound.middleware.js";
 import errorHandler from "./middleware/error.middleware.js";
 import userRoutes from "./routes/user.routes.js";
+import patientRoutes from "./routes/patient.routes.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(morgan("dev"));
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/patients", patientRoutes);
 
 // 404 Middleware for not found
 app.use(notFound);
