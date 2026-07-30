@@ -102,8 +102,6 @@ const patientProfileSchema = new Schema(
   },
 );
 
-patientProfileSchema.index({ mrn: 1 }, { unique: true });
-patientProfileSchema.index({ user: 1 }, { unique: true });
 patientProfileSchema.index({ bloodGroup: 1 });
 patientProfileSchema.index({ status: 1 });
 
