@@ -1,6 +1,9 @@
 import { Router } from "express";
 
-import { createPatient } from "../controllers/patient.controller.js";
+import {
+  createPatient,
+  getMyProfile,
+} from "../controllers/patient.controller.js";
 
 import protect from "../middleware/auth.middleware.js";
 import authorize from "../middleware/role.middleware.js";
@@ -18,5 +21,7 @@ router.post(
   validate,
   createPatient,
 );
+
+router.get("/me", protect, authorize("Patient"), getMyProfile);
 
 export default router;
