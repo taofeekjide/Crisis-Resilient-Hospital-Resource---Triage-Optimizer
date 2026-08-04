@@ -4,6 +4,7 @@ import {
   createPatient,
   getMyProfile,
   getPatientByMRN,
+  getAllPatients,
 } from "../controllers/patient.controller.js";
 
 import protect from "../middleware/auth.middleware.js";
@@ -24,6 +25,8 @@ router.post(
 );
 
 router.get("/me", protect, authorize("Patient"), getMyProfile);
+
+router.get("/", protect, authorize("Admin"), getAllPatients);
 
 router.get(
   "/:mrn",

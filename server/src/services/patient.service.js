@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import PatientProfile from "../models/patientProfile.model.js";
 import AppError from "../utils/AppError.js";
 import generateMRN from "../utils/generateMRN.js";
+import APIFeatures from "../utils/apiFeatures.js";
 
 // To Create patient profile
 export const createPatientProfile = async (patientData) => {
@@ -67,4 +68,23 @@ export const getPatientProfileByMRN = async (mrn) => {
   }
 
   return patient;
+};
+
+// Get all patient profiles
+export const getAllPatientProfiles = async (queryString) => {
+  const features = new APIFeatures(
+    PatientProfile.find().populate({
+      path: "user",
+      select: "firstName lastName email phone role",
+    }),
+    queryString,
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const patients = await features.query;
+
+  return patients;
 };

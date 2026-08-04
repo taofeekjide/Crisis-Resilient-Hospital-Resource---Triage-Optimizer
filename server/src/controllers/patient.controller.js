@@ -2,6 +2,7 @@ import {
   createPatientProfile,
   getMyPatientProfile,
   getPatientProfileByMRN,
+  getAllPatientProfiles,
 } from "../services/patient.service.js";
 
 export const createPatient = async (req, res, next) => {
@@ -39,6 +40,20 @@ export const getPatientByMRN = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: patient,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllPatients = async (req, res, next) => {
+  try {
+    const patients = await getAllPatientProfiles(req.query);
+
+    res.status(200).json({
+      success: true,
+      results: patients.length,
+      data: patients,
     });
   } catch (error) {
     next(error);
