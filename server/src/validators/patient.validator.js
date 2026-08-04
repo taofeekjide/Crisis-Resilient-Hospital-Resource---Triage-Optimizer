@@ -62,3 +62,38 @@ export const createPatientProfileValidator = [
 
   body("address.country").optional().trim(),
 ];
+
+export const updateContactValidator = [
+  body("emergencyContact")
+    .optional()
+    .isObject()
+    .withMessage("Emergency contact must be an object."),
+
+  body("emergencyContact.name")
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage("Emergency contact name cannot be empty."),
+
+  body("emergencyContact.relationship")
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage("Relationship cannot be empty."),
+
+  body("emergencyContact.phone")
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage("Phone number cannot be empty."),
+
+  body("address")
+    .optional()
+    .isObject()
+    .withMessage("Address must be an object."),
+
+  body("address.street").optional().trim(),
+  body("address.city").optional().trim(),
+  body("address.state").optional().trim(),
+  body("address.country").optional().trim(),
+];

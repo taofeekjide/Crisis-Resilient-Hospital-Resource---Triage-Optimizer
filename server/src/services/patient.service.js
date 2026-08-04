@@ -88,3 +88,32 @@ export const getAllPatientProfiles = async (queryString) => {
 
   return patients;
 };
+
+// Update patient's contact information
+export const updateMyContactInformation = async (
+  userId,
+  updateData
+) => {
+  const allowedUpdates = {
+    emergencyContact: updateData.emergencyContact,
+    address: updateData.address,
+  };
+
+  const profile = await PatientProfile.findOneAndUpdate(
+    { user: userId },
+    allowedUpdates,
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).populate({
+    path: "user",
+    select: "firstName lastName email phone role",
+  });
+
+  if (!profile) {
+    throw new AppError("Patient profile not found.", 404);
+  }
+
+  return profile;
+};
