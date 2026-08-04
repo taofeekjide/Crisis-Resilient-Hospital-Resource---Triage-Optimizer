@@ -40,7 +40,6 @@ export const createPatientProfile = async (patientData) => {
   });
 };
 
-
 export const getMyPatientProfile = async (userId) => {
   const profile = await PatientProfile.findOne({
     user: userId,
@@ -54,4 +53,18 @@ export const getMyPatientProfile = async (userId) => {
   }
 
   return profile;
+};
+
+// Get a patient profile using MRN
+export const getPatientProfileByMRN = async (mrn) => {
+  const patient = await PatientProfile.findOne({ mrn }).populate({
+    path: "user",
+    select: "firstName lastName email phone role",
+  });
+
+  if (!patient) {
+    throw new AppError("Patient profile not found.", 404);
+  }
+
+  return patient;
 };

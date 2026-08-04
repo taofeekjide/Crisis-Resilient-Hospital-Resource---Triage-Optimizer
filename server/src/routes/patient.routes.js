@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   createPatient,
   getMyProfile,
+  getPatientByMRN,
 } from "../controllers/patient.controller.js";
 
 import protect from "../middleware/auth.middleware.js";
@@ -23,5 +24,12 @@ router.post(
 );
 
 router.get("/me", protect, authorize("Patient"), getMyProfile);
+
+router.get(
+  "/:mrn",
+  protect,
+  authorize("Admin", "Doctor", "Nurse"),
+  getPatientByMRN,
+);
 
 export default router;

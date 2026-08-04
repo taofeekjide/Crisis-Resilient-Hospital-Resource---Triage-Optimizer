@@ -1,6 +1,7 @@
 import {
   createPatientProfile,
   getMyPatientProfile,
+  getPatientProfileByMRN,
 } from "../services/patient.service.js";
 
 export const createPatient = async (req, res, next) => {
@@ -24,6 +25,20 @@ export const getMyProfile = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: profile,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get patient profile using MRN
+export const getPatientByMRN = async (req, res, next) => {
+  try {
+    const patient = await getPatientProfileByMRN(req.params.mrn);
+
+    res.status(200).json({
+      success: true,
+      data: patient,
     });
   } catch (error) {
     next(error);
